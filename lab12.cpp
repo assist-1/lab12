@@ -34,7 +34,7 @@ public:
     }
 
     bool operator!=(const transform_iterator &other) const {
-        return !(*this == other);
+        return it_ != other.it_;
     }
 
 private:
