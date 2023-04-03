@@ -3,63 +3,6 @@
 #include <vector> 
 
 
-class complex {
-  int real;
-public:
-    complex() {
-        real = 0;
-    }
-    complex(int x) {
-        real = x;
-    }
-    complex operator+ (complex& );
-    complex operator- (complex& );
-    complex operator* (complex& );
-    complex operator/ (complex& );
-    bool operator!= (int m) { 
-        return this->real != m; 
-    } 
-    bool operator== (int m) { 
-        return this->real == m; 
-    } 
-    int get_real() {
-        return real;
-    }
-};
-std::ostream& operator<< (std::ostream &out, complex& point) {
-    out << point.get_real();
-    return out; 
-}
-
-complex complex::operator+ (complex& obj) {
-    complex ob;
-    ob.real = this->real + obj.real;
-    return ob;
-}
-
-complex complex::operator- (complex& obj) {
-    complex ob;
-    ob.real = this->real - obj.real;
-    return ob;
-}
-
-complex complex::operator* (complex& obj) {
-    complex ob;
-    ob.real = this->real * obj.real;
-    return ob;
-}
-complex complex::operator/ (complex& obj) {
-    if (obj.real != 0) {
-        complex ob;
-        ob.real = this->real / obj.real;
-        return ob;
-    }
-    else {
-        std::cerr << "Error: division by zero." << std::endl;
-        exit(EXIT_FAILURE);
-    }
-}
-
 template <typename Iterator, typename T> 
  
 class Functor { 
@@ -168,26 +111,5 @@ int main() {
         obj(h, '*', 1.12); 
         l = Transformation<std::vector<double>::iterator, double>(h, obj); 
     } 
-    std::cout << "Example with classes' objects: " << std::endl; 
-    complex temp1(1);
-    complex temp2(2);
-    complex temp3(3);
-    std::vector<complex> vectq = {temp1, temp2, temp3};
-    std::vector<complex>::iterator j = vectq.begin(); 
-    Functor<std::vector<complex>::iterator, complex> ks;
-    ks(j, '+', 93); 
-    auto i = Transformation<std::vector<complex>::iterator, complex>(j, ks); 
-    while (i != vectq.end()) { 
-        std::cout << *i << std::endl; 
-        ++i; 
-        ++j; 
-        ks(j, '+', 93); 
-        i = Transformation<std::vector<complex>::iterator, complex>(j, ks); 
-    } 
-    std::cout << "Example with float (mistakes): " << std::endl; 
-    std::vector<float> vecf = {1.2, 2.3, 3.4, 4.5, 5.6, 7.8, 9.0}; 
-    std::vector<float>::iterator rf = vecf.begin(); 
-    Functor<std::vector<float>::iterator, float> jk; 
-    jk(rf, '/', 0.0); 
     return 0; 
 }
