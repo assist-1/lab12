@@ -89,8 +89,8 @@ public:
             else
                 current_1 -= n;
         } else {
-            if (n > current_2 - (*second).begin()) {
-                current_1 = (*first).end() - (current_2 - (*second).begin());
+            if (n > (current_2 - (*second).begin())) {
+                current_1 = (*first).end() - (n - (current_2 - (*second).begin()));
                 current_2 = (*second).begin();
             } else
                 current_2 -= n;
@@ -98,16 +98,27 @@ public:
         return *this;
 
     }
+
+    int operator-(new_iter A){
+        if (this->current_1 == A.current_1 or this->current_2 == A.current_2)
+            return (this->current_1 - A.current_1 + this->current_2 - A.current_2);
+        else
+            if (A.current_1 == (*(A.first)).end()){
+                return (A.current_2 - (*(A.second)).begin() + (*(this->first)).end() - this->current_1);
+            } else
+                return ((*(A.first)).end() - A.current_1 + this->current_2 - (*(this->second)).begin());
+    }
+
 };
 
 int main() {
     std::vector<int> A = {2, 1, 3, 4 ,5, 9};
     std::deque<int> B;
-    B.push_back(12); B.push_back(14); B.push_back(10); B.push_back(1); B.push_back(2); B.push_back(7);
+    B.push_back(12); B.push_back(14); B.push_back(10); B.push_back(8); B.push_back(2); B.push_back(7);
 
     // vector: (2   1   3   4   5   9)
-    // deque:  (12  14  10  1   2   7)
-    // container: (2   1   3   4   5   9   12  14  10  1   2   7)
+    // deque:  (12  14  10  8   2   7)
+    // container: (2   1   3   4   5   9   12  14  10  8   2   7)
 
 
 
@@ -124,11 +135,16 @@ int main() {
     }
     std::cout << "\n\nDemonstration ==\n";
     new_iter<std::vector<int>, std::deque<int>> iter_2 (&A, &B);
+    ++iter_2;
     std::cout << (iter_1 == iter_2) << "\n\nDemonstration =\n";
     iter_1 = A.begin();
     std::cout << *iter_1 << "\n\nDemonstration +\n";
     iter_1 = iter_1 + 5;
     std::cout << *(iter_1) << " " << *(iter_1 + 3) << "\n\nDemonstration -\n";
     iter_1 = iter_1 - 1;
-    std::cout << *(iter_1) << " " << *(iter_1) - 4;
+    std::cout << *(iter_1) << " " << *(iter_1 - 3) << "\n\nDemonstration -\n";
+    iter_1 = iter_1 + 3;
+    iter_2 = iter_2 + 1;
+    std::cout << *(iter_1) << " " << *iter_2 << "\n";
+    std::cout << iter_1 - iter_2;
 }
