@@ -8,7 +8,7 @@ class Transform_Iterator{
     Iterator iter;
     Function function;
     public:
-        ~Transform_Iterator(){}
+        ~Transform_Iterator(){ }
         Transform_Iterator(Iterator it, Function fun): iter(it), function(fun){}
         typename Iterator::value_type operator*(){ 
             return function(*iter);
@@ -23,11 +23,11 @@ class Transform_Iterator{
         Iterator operator++(){
             return ++iter;
         }
-         Iterator operator--(){
+        Iterator operator--(){
             return --iter;
         }
 
-         Iterator operator++(int){
+        Iterator operator++(int){
             return iter++;
         }
         Iterator operator--(int){
@@ -62,10 +62,19 @@ class Transform_Iterator{
 };
 
 
-class Function{
+class Function1{
     public:
     int operator()(int a) { return a *= 2; }
 };
-
+class Function2{
+    public:
+    std::string operator()(std::string a){
+        std::string b="";
+        b.append(a);
+        b.append(" <3 ");
+        b.append(a);
+        return b;
+    }
+};
 
 #endif
