@@ -1,0 +1,58 @@
+#include <iostream>
+#include <vector>
+#include <list>
+#include <iterator>
+
+template<typename I, typename T>
+class OwnIterator {
+public:
+    explicit OwnIterator(I itt, T funcc) : it_(itt), fun_(funcc) {
+    }
+
+    OwnIterator &operator++() {
+        ++it_;
+        return *this;
+    }
+
+
+    auto &operator*() {
+        fun_(it_);
+        return *it_;
+    }
+
+    bool operator!=(const OwnIterator &iterator) {
+        return it_ != iterator.it_;
+    }
+
+private:
+    I it_;
+    T fun_;
+};
+
+
+class func {
+public:
+    template<typename It>
+    void operator()(It it) {
+        (*it)++;
+    }
+};
+
+int main() {
+    std::vector<int> A = {1, 2, 3, 4, 5};
+    std::list<double> L = {2.23, 30.4, 23.55, 12.233};
+    func k;
+    OwnIterator<std::vector<int>::iterator, func> a{A.begin(), k};
+    OwnIterator<std::vector<int>::iterator, func> b{A.end(), k};
+
+    OwnIterator<std::list<double>::iterator, func> l1{L.begin(), k};
+    OwnIterator<std::list<double>::iterator, func> l2{L.end(), k};
+
+    for (auto el = a; el != b; ++el) {
+        std::cout << *el << std::endl;
+    }
+
+    for (auto el = l1; el != l2; ++el) {
+        std::cout << *el << std::endl;
+    }
+}
