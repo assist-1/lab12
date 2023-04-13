@@ -40,7 +40,21 @@ public:
         }
     };
 
+    void operator++ (int){
+        current++;
+        for(int i = 0; i < others.size(); ++i){
+            others[i]++;
+        }
+    };
+
     void operator-- (){
+        current--;
+        for(int i = 0; i < others.size(); ++i){
+            others[i]--;
+        }
+    };
+
+    void operator-- (int){
         current--;
         for(int i = 0; i < others.size(); ++i){
             others[i]--;
@@ -102,14 +116,14 @@ public:
 
 int main() {
     typedef std::vector<int>::iterator iterator_type;
-    std::vector<int> a{1, 2, 3, 4, 5}, b{10, 10, 10, 10, 10};
-    std::vector<iterator_type> others; others.push_back(b.begin());
+    std::vector<int> a{1, 2, 3, 4, 5}, b{10, 10, 10, 10, 10}, c{1, 1, 1, 1, 1};
+    std::vector<iterator_type> others; others.push_back(b.begin()); others.push_back(c.begin());
     ZipIter<iterator_type, FunctorSum> summery (a.begin(), others);
 
     std::cout << *(summery + 2) << "\n";
     for(int i = 0; i < a.size(); ++i){
         std::cout << *summery << ' ';
-        ++summery;
+        summery++;
     }
     return 0;
 }
