@@ -1,6 +1,9 @@
 #include <iostream>
 #include <cmath>
+#include <vector>
 #include "filter_iterator.h"
+
+// --Functors (predicates)--
 class IsPrimeNumberFunction {
 public:
 	bool operator()(int&) const;
@@ -17,11 +20,16 @@ public:
 
 
 int main() {
-
+	std::vector vec = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15};
+	for(FilterIterator<int, std::vector<int>::iterator, IsPrimeNumberFunction> filter(vec.begin(), vec.end()); filter != vec.end(); ++filter) {
+		std::cout << *filter << std::endl;
+	}
 
 
 	return 0;
 }
+
+
 
 
 IsPrimeNumberFunction::operator()(int& number) const {
@@ -39,5 +47,6 @@ IsPrimeNumberFunction::operator()(int& number) const {
 }
 
 IsEvenNumberFunction::operator()(int& number) const { return number % 2 == 0; }
+
 template<typename data_type>
 IsPositiveNumberFunction<data_type>::operator()(data_type& number) const { return number > 0; }
